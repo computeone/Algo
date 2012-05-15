@@ -32,6 +32,10 @@ public class MidsortTest {
 	}
 
 	@Test
+	public void testSelectKth(){
+		
+	}
+	@Test
 	public void testMedianSort() {
 		
 	}

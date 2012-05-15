@@ -45,7 +45,7 @@ public class App {
 		}
 		array[i+1]=value;
 	}
-	public  void main1(String[] argv) {
+	public static void main(String[] argv) {
 		int[] array={12,45,36,2,45,41111};
 	   // Integer array[]=new Integer[6];
 	    java.util.Random random=new java.util.Random();
