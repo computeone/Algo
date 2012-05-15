@@ -91,11 +91,11 @@ public class Midsort {
 		Midsort midsort=new Midsort();
 		long start_time=System.currentTimeMillis();
 		//int mid=midsort.partition(array1,4,array1.length-8,5);
-		int mid=midsort.getMid(array1.length);
-		//int midnumber=midsort.selectKth(array1, mid,0,array1.length-1);
+		int mid=midsort.getMid(array.length);
+		int midnumber=midsort.selectKth(array, mid,0,array.length-1);
 		//midsort.sort(array);
 		//System.out.println("mid is "+mid);
-		//System.out.println("midnumber is "+midnumber);
+		System.out.println("midnumber is "+array[midnumber]);
 		midsort.sort(array1);
 		long end_time=System.currentTimeMillis();
 		System.out.println(end_time-start_time+"ms");
