@@ -62,8 +62,25 @@ public class MidsortTest {
 		int[] testarray={1,4,7,8,9,15};
 		for(int i=0;i<array.length;i++){
 		Assert.assertEquals(array[i], testarray[i]);
+		}	
+	}
+	@Test
+	public void testSelectIndex(){
+		int idx=midsort.selectIndex(array, 10, 22, "random");
+		if(idx<=22&&idx>=10){
 		}
-		
+		else {
+			Assert.fail();
+		}
+	}
+	public void testQuickSort(){
+		midsort.quickSort(array, 0, array.length);
+		int[] tmp={1,4,7,8,9,15};
+		for(int i=0;i<array.length;i++){
+			if(array[i]!=tmp[i]){
+				Assert.fail();
+			}
+		}
 	}
 
 }

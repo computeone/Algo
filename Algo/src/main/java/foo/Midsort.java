@@ -1,5 +1,5 @@
 package foo;
-
+import java.util.Random;
 public class Midsort {
 	
 	public int partition(int[] array,int left,int right,int pivotIndex){
@@ -25,14 +25,38 @@ public class Midsort {
 	/**
 	 * @param args
 	 */
-	public int selectIndex(int[] array,int left,int right){
-		return left;
+	public int selectIndex(int[] array,int left,int right,String cmd){
+		if(cmd=="random"){
+			Random random=new Random();
+			int idx;
+			while(true){
+				idx=random.nextInt(right);
+			     if(idx<left){
+			    	continue;
+			     }
+			     else{
+			    	 return idx;
+			     }
+			}
+		}
+		if(cmd=="left"){
+			return left;
+		}
+		if(cmd=="mid"){
+			return this.getMid(right-left+1);
+		}
+		if(cmd=="right"){
+			return right;
+		}
+		else{
+			return -1;
+		}
 	}
 	public int  selectKth(int[] array,int k,int left,int right){
 		/**
 		 * 获取中值
 		 */
-		int idx=this.selectIndex(array, left, right);
+		int idx=this.selectIndex(array, left, right,"left");
 		int pivotIndex=this.partition(array, left, right, idx);
         if(left+k-1==pivotIndex){
         	return pivotIndex;
@@ -81,22 +105,31 @@ public class Midsort {
 			this.medianSort(array, mid+1,right);//递归排序这个较大的子序列
 		}
 	}
+	public void quickSort(int[] array,int left,int right){
+		if(left<right){
+			int idx=this.selectIndex(array, left, right,"random");
+			int pi=this.partition(array, left, right, idx);
+			quickSort(array,left,pi-1);
+			quickSort(array,pi+1,right);
+		}
+	}
 	public void sort(int[] array){
 		medianSort(array,0,array.length-1);
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] array={15,9,8,1,4,7};
-		int[] array1={15,9,8,1,4,11,7,12,13,6,5,3,16,2,10,14,545,78,546,-999};
+		int[] array1={15,9,8,1,4,11,7,12,13,6,5,3,16,2,10,14};
 		Midsort midsort=new Midsort();
 		long start_time=System.currentTimeMillis();
 		//int mid=midsort.partition(array1,4,array1.length-8,5);
-		int mid=midsort.getMid(array.length);
-		int midnumber=midsort.selectKth(array, mid,0,array.length-1);
+		//int mid=midsort.getMid(array.length);
+		//int midnumber=midsort.selectKth(array, mid,0,array.length-1);
 		//midsort.sort(array);
 		//System.out.println("mid is "+mid);
-		System.out.println("midnumber is "+array[midnumber]);
-		midsort.sort(array1);
+		//System.out.println("midnumber is "+array[midnumber]);
+		//midsort.sort(array1);
+		midsort.quickSort(array1, 0, 15);
 		long end_time=System.currentTimeMillis();
 		System.out.println(end_time-start_time+"ms");
 
