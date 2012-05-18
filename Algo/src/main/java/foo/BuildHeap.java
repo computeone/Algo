@@ -1,7 +1,6 @@
 package foo;
 import java.util.*;
 public class BuildHeap {
-
 	/**
 	 * @param args
 	 */
@@ -51,7 +50,7 @@ public class BuildHeap {
 	    	}
 	    }
 	 }
-	public void sort(int[] array){
+	public void sort(int[]  array){
 		buildHeap(array);
 		for(int i=array.length-1;i>0;i--){
 		    int tmp=array[0];
@@ -60,10 +59,52 @@ public class BuildHeap {
 			heapify(array,0,i);
 		}
 	}
-	public static void swap(int a,int b){
-		int tmp=a;
-		a=b;
-		b=tmp;
+	public int getHash(int elem){
+		return (int)(elem/4);
+	}
+	public void bucketSort(int[] array){
+		ArrayList<LinkedList<Integer>> buckets=new ArrayList<LinkedList<Integer>>();
+		for(int i=0;i<5;i++){
+			buckets.add(new LinkedList<Integer>());
+		}
+		for(int i=0;i<array.length;i++){
+			LinkedList<Integer> linkedlist=buckets.get(this.getHash(array[i]));
+			linkedlist.add(array[i]);
+		}
+		int sum=0;
+		for(int i=0;i<buckets.size();i++){//取出桶中的元素
+			//LinkedList<Integer> list=buckets.get(i);
+			//this.listSort(list);
+			Iterator<Integer> iterator=buckets.get(i).iterator();
+			while(iterator.hasNext()){
+				for(int j=sum;j<array.length;j++){
+					if(iterator.hasNext()){
+						array[j]=(Integer)iterator.next();
+					}
+					else{
+						sum=j;
+						break;
+					}
+				}
+			}
+		}
+	}
+	public void listSort(LinkedList<Integer> linklist){
+		Iterator<Integer> iterator=linklist.iterator();
+		Integer[] tmp=new Integer[2];
+		int size=0;
+		for(int i=0;i<tmp.length;i++){
+			if(iterator.hasNext()){
+				tmp[i]=(Integer)iterator.next();
+			}
+			else{
+				break;
+			}
+		}
+		//this.sort(tmp);
+		for(int i=0;i<tmp.length;i++){
+			linklist.add(tmp[i]);
+		}
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -71,7 +112,8 @@ public class BuildHeap {
 		int []array1={5,3,16,2,10,14};
 		BuildHeap buildheap=new BuildHeap();
 		//buildheap.countSort(array);
-		buildheap.sort(array);
+		//buildheap.sort(array1);
+		buildheap.bucketSort(array1);
 		System.out.println();
 
 	}
