@@ -52,7 +52,7 @@ public class Midsort {
 			return -1;
 		}
 	}
-	public int  selectKth(int[] array,int k,int left,int right){
+	public int  selectKth(int[] array,int k,int left,int right){//选择第K大元素
 		/**
 		 * 获取中值
 		 */
@@ -68,7 +68,7 @@ public class Midsort {
         	return this.selectKth(array, k-(pivotIndex-left+1), pivotIndex+1, right);
         }
      }
-	public int getMid(int length){
+	public static int getMid(int length){//得到一个数的中值
 		if(length%2==0){
 			return length/2;
 		}
@@ -76,7 +76,7 @@ public class Midsort {
 			return (length+1)/2;
 		}
 	}
-	public void medianSort(int[] array,int left,int right){
+	public void medianSort(int[] array,int left,int right){//中值排序
 		if(left<right){
 			int me=this.selectKth(array, this.getMid(right-left+1), left, right);
 			int mid=this.getMid(right-left+1)-1+left;
