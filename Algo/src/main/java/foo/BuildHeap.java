@@ -82,6 +82,7 @@ public class BuildHeap {
 						array[j]=(Integer)iterator.next();
 					}
 					else{
+						this.insertSort(array, sum, j-1);
 						sum=j;
 						break;
 					}
@@ -89,31 +90,28 @@ public class BuildHeap {
 			}
 		}
 	}
-	public void listSort(LinkedList<Integer> linklist){
-		Iterator<Integer> iterator=linklist.iterator();
-		Integer[] tmp=new Integer[2];
-		int size=0;
-		for(int i=0;i<tmp.length;i++){
-			if(iterator.hasNext()){
-				tmp[i]=(Integer)iterator.next();
+	public void insertSort(int[] array,int start,int end){
+		for(int i=end;i>=start;i--){
+			int pos=i-1;
+			while(pos>=start){
+				if(array[i]<array[pos]){
+					int tmp=array[i];
+					array[i]=array[pos];
+					array[pos]=tmp;
+				}
+				pos--;
 			}
-			else{
-				break;
-			}
-		}
-		//this.sort(tmp);
-		for(int i=0;i<tmp.length;i++){
-			linklist.add(tmp[i]);
 		}
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int[] array={0,1,4,2,3,4,1,2,3,2,3};
-		int []array1={5,3,16,2,10,14};
+		int []array1={5,3,16,2,10,14,12,11};
 		BuildHeap buildheap=new BuildHeap();
 		//buildheap.countSort(array);
 		//buildheap.sort(array1);
 		buildheap.bucketSort(array1);
+		//buildheap.insertSort(array1, 0, 5);
 		System.out.println();
 
 	}
