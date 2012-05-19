@@ -73,8 +73,6 @@ public class BuildHeap {
 		}
 		int sum=0;
 		for(int i=0;i<buckets.size();i++){//取出桶中的元素
-			//LinkedList<Integer> list=buckets.get(i);
-			//this.listSort(list);
 			Iterator<Integer> iterator=buckets.get(i).iterator();
 			while(iterator.hasNext()){
 				for(int j=sum;j<array.length;j++){

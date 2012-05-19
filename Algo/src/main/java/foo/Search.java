@@ -1,5 +1,5 @@
 package foo;
-
+import java.util.*;
 public class Search {
 
 	/**
@@ -31,12 +31,32 @@ public class Search {
 		}
 		return false;
 	}
+	public ArrayList<LinkedList<Integer>> createHashTable(int size,Integer[] array){
+		ArrayList<LinkedList<Integer>> hashTable=new ArrayList<LinkedList<Integer>>();
+		for(int i=0;i<size;i++){
+			hashTable.add(new LinkedList<Integer>());
+		}
+		for(int i=0;i<array.length;i++){
+			int key=array[i]%size;
+			LinkedList<Integer> list=hashTable.get(key);
+			list.add(array[i]);
+		}
+		return hashTable;
+	}
+	public boolean hashSearch(Integer[] array,int p){
+		ArrayList<LinkedList<Integer>> hashTable=this.createHashTable(4, array);
+		int key=p%4;
+		LinkedList<Integer> list=hashTable.get(key);
+	    boolean result=list.contains(p);
+		return result;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Search search=new Search();
-		Integer[] array={1,2,5,8,10,14};
+		Integer[] array={1,2,5,8,10,14,34,55,0,66,100,458546};
 		boolean result=search.binarySearch(array, 1);
-		System.out.println(result);
+		boolean result1=search.hashSearch(array, 100);
+		System.out.println(result+" "+result1);
 
 	}
 
