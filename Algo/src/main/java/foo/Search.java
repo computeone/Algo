@@ -57,7 +57,6 @@ public class Search {
 		boolean result=search.binarySearch(array, 1);
 		boolean result1=search.hashSearch(array, 100);
 		System.out.println(result+" "+result1);
-
 	}
 
 }

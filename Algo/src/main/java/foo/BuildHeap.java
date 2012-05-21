@@ -80,7 +80,7 @@ public class BuildHeap {
 						array[j]=(Integer)iterator.next();
 					}
 					else{
-						this.insertSort(array, sum, j-1);
+						this.insertSort(array, sum+1, j);
 						sum=j;
 						break;
 					}
@@ -89,16 +89,14 @@ public class BuildHeap {
 		}
 	}
 	public void insertSort(int[] array,int start,int end){
-		for(int i=end;i>=start;i--){
+		for(int i=start;i<end;i++){
 			int pos=i-1;
-			while(pos>=start){
-				if(array[i]<array[pos]){
-					int tmp=array[i];
-					array[i]=array[pos];
-					array[pos]=tmp;
-				}
+			int value=array[i];
+			while(pos>=0&&array[pos]>value){
+				array[pos+1]=array[pos];
 				pos--;
 			}
+			array[pos+1]=value;
 		}
 	}
 	public static void main(String[] args) {
@@ -108,8 +106,8 @@ public class BuildHeap {
 		BuildHeap buildheap=new BuildHeap();
 		//buildheap.countSort(array);
 		//buildheap.sort(array1);
-		buildheap.bucketSort(array1);
-		//buildheap.insertSort(array1, 0, 5);
+	    buildheap.bucketSort(array1);
+		buildheap.insertSort(array1, 1, 8);
 		System.out.println();
 
 	}
