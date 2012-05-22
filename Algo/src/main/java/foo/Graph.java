@@ -2,7 +2,7 @@ package foo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-
+import java.util.ArrayDeque;
 public class Graph {
 	/**
 	 * @param args
@@ -15,10 +15,6 @@ public class Graph {
 	public Graph(int size){
 		this.size=size;
 		this.array=new ArrayList<LinkedList<ArrayList<Integer>>>();
-		LinkedList<ArrayList<Integer>> list=new LinkedList<ArrayList<Integer>>();
-		ArrayList<Integer> node=new ArrayList<Integer>();
-		node=new ArrayList<Integer>();
-		list=new LinkedList<ArrayList<Integer>>();
 		for(int i=0;i<this.size;i++){
 			array.add(new LinkedList<ArrayList<Integer>>());
 		}
@@ -43,7 +39,7 @@ public class Graph {
 	}
 	public void depthFirstSearch(){		
 			LinkedList<ArrayList<Integer>> linkedlist=new LinkedList<ArrayList<Integer>>();
-			linkedlist=array.get(0);
+			linkedlist=array.get(1);
 			this.dfs_visit(linkedlist.getFirst());
 			for(int i=0;i<size;i++){
 				if(nodeinfo.get(i)[0]==0){
@@ -83,29 +79,75 @@ public class Graph {
 		int index=node.get(0);
 		array.set(index,linkedlist);
 	}
+
+	public void breadthFirstSearch() {
+		ArrayDeque<Integer> queue = new ArrayDeque<Integer>(9);
+		LinkedList<ArrayList<Integer>> linkedlist = new LinkedList<ArrayList<Integer>>();
+		Integer[] info = new Integer[5];
+		int dist = 0;
+		int counter = 0;
+
+		// 把开始结点加入队列
+		info=nodeinfo.get(0);
+		info[0]=1;//设置颜色为灰色
+		info[2]=counter;//设置计数器
+		counter++;
+		info[4]=dist;//设置距离始点的距离
+		dist++;
+		queue.add(0);
+		// 增加邻接结点到队列
+		linkedlist = array.get(0);
+		Integer head=queue.getFirst();
+		while (!queue.isEmpty()) {
+			head=queue.getFirst();
+			Iterator<ArrayList<Integer>> iterator = linkedlist.iterator();
+			while (iterator.hasNext()) {
+				ArrayList<Integer> node = new ArrayList<Integer>();
+				node = iterator.next();
+				info=nodeinfo.get(node.get(0));
+				if (info[0]==0) {
+					info[0]=1;
+					info[1]=head;
+					info[2]=counter;
+					counter++;
+					info[4]=dist;
+					dist++;
+					queue.add(node.get(0));
+				}
+			}
+			queue.remove();
+			nodeinfo.get(head)[0]=2;
+			if(queue.isEmpty()){
+				break;
+			}
+			linkedlist = array.get(queue.getFirst());// 获取这个结点的邻接结点
+		}
+	}
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		Graph graph=new Graph(9);
 		ArrayList<Integer[]> nodeinfo=new ArrayList<Integer[]>();
 		Integer[][] matrix=new Integer[9][9];
-		Integer[][] relation={{0,1,4},{1,0,2},{2,1,3,6},{3,2,4},{4,0,3,5},{5,4},{6,2},{7,8},{8,7}};
+		Integer[][] relation={{1,4},{0,2},{1,3,6},{2,4},{0,3,5},{4},{2},{8},{7}};
 		for(int i=0;i<9;i++){
 			ArrayList<Integer> node=new ArrayList<Integer>();
 			node.add(i);//结点node
 			graph.addNode(node, relation[i]);
 		}
 		for(int i=0;i<9;i++){
-			Integer[] info=new Integer[4];
+			Integer[] info=new Integer[5];
 			nodeinfo.add(info);
 			info[0]=0;//颜色时白色  当为0时为白色，为1时为灰色，为2时为黑色
 			info[1]=-1;//前驱结点
 			info[2]=-1;//被发现时计数器的值
 			info[3]=-1;//在该结点上被遍历完时计数器的值
+			info[4]=-1;//距离始点的距离
 		}
 		graph.setNodeInfo(nodeinfo);
-		graph.depthFirstSearch();
-		Graph graph1=new Graph(matrix);
-		graph1.setGraph(relation);
+		//graph.depthFirstSearch();
+		//Graph graph1=new Graph(matrix);
+		//graph1.setGraph(relation);
+		graph.breadthFirstSearch();
 		System.out.println("Graph is builded");
 	}
 }
