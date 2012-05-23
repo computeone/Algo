@@ -1,8 +1,6 @@
 package foo;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.ArrayDeque;
+import java.util.*;
+import java.util.PriorityQueue;
 public class Graph {
 	/**
 	 * @param args
@@ -69,11 +67,12 @@ public class Graph {
 		info[0]=2;;//搜索完成 ，颜色设置为黑色
 		info[3]=counter;//设置finished值
 	}
-	public void addNode(ArrayList<Integer> node,Integer[] relation){
+	public void addNode(ArrayList<Integer> node,Integer[] relation,Integer[] dist){
 		LinkedList<ArrayList<Integer>> linkedlist=new LinkedList<ArrayList<Integer>>();	
 		for(int i=0;i<relation.length;i++){
 			ArrayList<Integer> tmpnode=new ArrayList<Integer>();
 		    tmpnode.add(relation[i]);
+		    tmpnode.add(dist[i]);
 			linkedlist.add(tmpnode);			
 		}
 		int index=node.get(0);
@@ -123,18 +122,82 @@ public class Graph {
 			linkedlist = array.get(queue.getFirst());// 获取这个结点的邻接结点
 		}
 	}
+
+	public void singleSourceShortest() {
+		// 初始化队列和距离数组
+		// PriorityQueue<HashMap<Integer, Integer>> queue = new
+		// PriorityQueue<HashMap<Integer, Integer>>();
+		Integer[] queue = new Integer[array.size()];
+		//HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+		Integer[] dist = new Integer[array.size()];
+		dist[0] = 0;
+		//map.put(0, 0);
+		queue[0] = 0;
+		for (int i = 1; i < array.size(); i++) {
+			// HashMap<Integer, Integer> hashmap = new HashMap<Integer,
+			// Integer>();
+			dist[i] = Integer.MAX_VALUE;
+			//map.put(i, dist[i]);
+			queue[i] = dist[i];
+		}
+		// 将head设置为起始结点
+		while (queue[this.Search(queue)]!=Integer.MAX_VALUE) {
+			int head = this.Search(queue);
+			if (queue[head] == Integer.MAX_VALUE) {
+				break;
+			}
+			Iterator<ArrayList<Integer>> iterator = array.get(head).iterator();
+			while (iterator.hasNext()) { // 找出所有的邻接结点
+				ArrayList<Integer> node = new ArrayList<Integer>();
+				Integer[] info = new Integer[4];
+				node = iterator.next();
+				info = nodeinfo.get(node.get(0));
+				if (info[0] == 0) {
+					info[1] = head;
+					if (dist[head] + node.get(1) < dist[node.get(0)]) {
+						dist[node.get(0)] = node.get(1)+dist[head];
+						queue[node.get(0)]=node.get(1)+dist[head];
+					}
+				}
+			}
+			queue[head]=Integer.MAX_VALUE;
+		}
+	}
+	public void sort(Integer[] array){
+		for(int i=0;i<array.length;i++){
+			int pos=i-1;
+			int value=array[i];
+			while(value>array[pos]){
+				array[pos+1]=array[pos];
+				pos--;
+			}
+			array[pos+1]=value;
+		}
+	}
+	public int Search(Integer[] array){
+		int min=array[0];
+		int j=0;
+		for(int i=0;i<array.length;i++){
+			if(array[i]<min){
+				min=array[i];
+				j=i;
+			}
+		}
+		return j;
+	}
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		Graph graph=new Graph(9);
+		Graph graph=new Graph(5);
 		ArrayList<Integer[]> nodeinfo=new ArrayList<Integer[]>();
-		Integer[][] matrix=new Integer[9][9];
-		Integer[][] relation={{1,4},{0,2},{1,3,6},{2,4},{0,3,5},{4},{2},{8},{7}};
-		for(int i=0;i<9;i++){
+		Integer[][] matrix=new Integer[5][5];
+		Integer[][] relation={{1,4},{2},{3,4},{0},{3}};
+		Integer[][] dist={{2,4},{3},{5,1},{8},{7}};
+		for(int i=0;i<5;i++){
 			ArrayList<Integer> node=new ArrayList<Integer>();
 			node.add(i);//结点node
-			graph.addNode(node, relation[i]);
+			graph.addNode(node, relation[i],dist[i]);
 		}
-		for(int i=0;i<9;i++){
+		for(int i=0;i<5;i++){
 			Integer[] info=new Integer[5];
 			nodeinfo.add(info);
 			info[0]=0;//颜色时白色  当为0时为白色，为1时为灰色，为2时为黑色
@@ -147,6 +210,7 @@ public class Graph {
 		//graph.depthFirstSearch();
 		//Graph graph1=new Graph(matrix);
 		//graph1.setGraph(relation);
+		graph.singleSourceShortest();
 		graph.breadthFirstSearch();
 		System.out.println("Graph is builded");
 	}
