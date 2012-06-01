@@ -1,6 +1,7 @@
 package foo;
 import java.util.*;
-import java.util.PriorityQueue;
+
+//图的邻接表及其相关算法
 public class Graph {
 	/**
 	 * @param args
@@ -122,22 +123,15 @@ public class Graph {
 			linkedlist = array.get(queue.getFirst());// 获取这个结点的邻接结点
 		}
 	}
-
+    //基于优先队列的Dijkstra算法
 	public void singleSourceShortest() {
 		// 初始化队列和距离数组
-		// PriorityQueue<HashMap<Integer, Integer>> queue = new
-		// PriorityQueue<HashMap<Integer, Integer>>();
 		Integer[] queue = new Integer[array.size()];
-		//HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 		Integer[] dist = new Integer[array.size()];
 		dist[0] = 0;
-		//map.put(0, 0);
 		queue[0] = 0;
 		for (int i = 1; i < array.size(); i++) {
-			// HashMap<Integer, Integer> hashmap = new HashMap<Integer,
-			// Integer>();
 			dist[i] = Integer.MAX_VALUE;
-			//map.put(i, dist[i]);
 			queue[i] = dist[i];
 		}
 		// 将head设置为起始结点
@@ -154,14 +148,45 @@ public class Graph {
 				info = nodeinfo.get(node.get(0));
 				if (info[0] == 0) {
 					info[1] = head;
-					if (dist[head] + node.get(1) < dist[node.get(0)]) {
-						dist[node.get(0)] = node.get(1)+dist[head];
+					if (dist[head] + node.get(1) < dist[node.get(0)]) {//如果dist[u]+dist[v]<dist[v],
+						dist[node.get(0)] = node.get(1)+dist[head];//则更新dist[v]
 						queue[node.get(0)]=node.get(1)+dist[head];
 					}
 				}
 			}
 			queue[head]=Integer.MAX_VALUE;
 		}
+	}
+	//稠密图的单源点最短路径
+	public void singleSourceShort(){
+		// 初始化队列和距离数组
+				Integer[] queue = new Integer[array.size()];
+				Integer[] dist = new Integer[array.size()];
+				dist[0] = 0;
+				queue[0] = 0;
+				for (int i = 1; i < array.size(); i++) {
+					dist[i] = Integer.MAX_VALUE;
+					queue[i] = dist[i];
+				}
+				// 将head设置为起始结点
+				while (queue[this.Search(queue)]!=Integer.MAX_VALUE) {
+					int head = this.Search(queue);
+					Iterator<ArrayList<Integer>> iterator = array.get(head).iterator();
+					while (iterator.hasNext()) { // 找出所有的邻接结点
+						ArrayList<Integer> node = new ArrayList<Integer>();
+						Integer[] info = new Integer[4];
+						node = iterator.next();
+						info = nodeinfo.get(node.get(0));
+						if (info[0] == 0) {
+							info[1] = head;
+							if (dist[head] + node.get(1) < dist[node.get(0)]) {//如果dist[u]+dist[v]<dist[v],
+								dist[node.get(0)] = node.get(1)+dist[head];//则更新dist[v]
+								queue[node.get(0)]=node.get(1)+dist[head];
+							}
+						}
+					}
+					queue[head]=Integer.MAX_VALUE;
+				}
 	}
 	public void sort(Integer[] array){
 		for(int i=0;i<array.length;i++){
@@ -184,6 +209,18 @@ public class Graph {
 			}
 		}
 		return j;
+	}
+	//bellman-Ford算法
+	public void singleSourceShortestPath(){
+		
+	}
+	//Floyd-Warshall算法
+	public void allPairsShortestPath(){
+		
+	}
+	//Prim 最小生成树算法
+	public void computeMST(){
+		
 	}
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
