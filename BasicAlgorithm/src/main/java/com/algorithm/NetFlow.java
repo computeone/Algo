@@ -11,4 +11,9 @@ public class NetFlow {
 		
 	}
 
+	//最大流算法，预留推进
+	public void fordFulkerson(){
+
+	}
+
 }

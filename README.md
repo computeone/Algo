@@ -8,5 +8,7 @@
 - Depth Search(深度优先搜索)
 - Breadth Search(宽度优先搜索)
 - Single Source Shortest(单源点最短路径)
+- Prim(最小生成树)
+- Ford-Fulkerson(最大流算法)
 
 
